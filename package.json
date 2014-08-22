@@ -7,8 +7,8 @@
   "license": "MIT",
   "dependencies": {
     "colors": "^0.6.2",
+    "gift": "^0.4.2",
     "inquirer": "^0.6.0",
-    "nodegit": "^0.1.4",
     "swig": "^1.4.2"
   }
 }

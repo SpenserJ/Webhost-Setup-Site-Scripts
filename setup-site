@@ -3,12 +3,7 @@
 var inquirer = require('inquirer')
   , WebDir = require('./includes/directory')
   , Nginx = require('./includes/nginx')
-  , Git = require('nodegit');
-
-if (process.getuid() !== 0) {
-  console.error('This application requires administrative rights. Please run with sudo.');
-  process.exit();
-}
+  , Git = require('./includes/git');
 
 var questions = [
   {
@@ -57,6 +52,7 @@ inquirer.prompt(questions, function (settings) {
     readyForReload++;
     if (readyForReload === 2) {
       nginx.reload();
+      var git = Git(settings, function () {});
     }
   }
 
