@@ -1,0 +1,13 @@
+{
+  "name": "SetupSite",
+  "version": "0.2.0",
+  "description": "A script to quickly configure websites on a development environment.",
+  "main": "setup-site",
+  "author": "Spenser Jones <hello@spenserj.com>",
+  "license": "MIT",
+  "dependencies": {
+    "inquirer": "^0.6.0",
+    "nodegit": "^0.1.4",
+    "swig": "^1.4.2"
+  }
+}

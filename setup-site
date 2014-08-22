@@ -1,0 +1,65 @@
+#!/usr/bin/env node
+
+var inquirer = require('inquirer')
+  , WebDir = require('./includes/directory')
+  , Nginx = require('./includes/nginx')
+  , Git = require('nodegit');
+
+if (process.getuid() !== 0) {
+  console.error('This application requires administrative rights. Please run with sudo.');
+  process.exit();
+}
+
+var questions = [
+  {
+    type: 'input',
+    name: 'name',
+    message: 'Site Name',
+    validate: function (input) {
+      if (input.length < 1 || input.length > 16) {
+        return 'Must be between 1-16 characters';
+      }
+      if (/[^a-z0-9\-_]/.test(input) === true) {
+        return 'May only contain a-z 0-9 - and _';
+      }
+      return true;
+    },
+  },
+  {
+    type: 'input',
+    name: 'repository',
+    message: 'Git Repository URL?',
+    validate: function (input) {
+      return true;
+      if (input.substr(0, 4) !== 'git@') {
+        return 'Please use a SSH repository URL';
+      }
+      return true;
+    },
+  },
+  {
+    type: 'list',
+    name: 'type',
+    message: 'Website Type',
+    choices: ['Drupal 7', 'Drupal 6', 'Wordpress', 'PHP-FPM', 'Static'],
+    filter: function (input) {
+      return input.toLowerCase().replace(/[^a-z0-9\-]/, '');
+    },
+  },
+];
+
+inquirer.prompt(questions, function (settings) {
+  console.log('You said', settings);
+  var readyForReload = 0
+    , nginx, directory;
+
+  function canReload() {
+    readyForReload++;
+    if (readyForReload === 2) {
+      nginx.reload();
+    }
+  }
+
+  nginx = new Nginx(settings, canReload);
+  directory = new WebDir(settings, canReload);
+});
