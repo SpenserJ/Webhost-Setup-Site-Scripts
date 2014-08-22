@@ -13,7 +13,7 @@ server {
 
   location @php {
     include       /etc/nginx/fastcgi_params;
-    fastcgi_pass  unix:/var/run/php5-fpm.sock;
+    fastcgi_pass  unix:/var/run/php5-fpm_www.sock;
     fastcgi_param HTTPS $https_proxied;
     if ($log_php_request = 0) {
       access_log  off;
