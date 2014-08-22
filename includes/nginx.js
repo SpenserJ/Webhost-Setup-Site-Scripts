@@ -1,6 +1,7 @@
 var swig = require('swig')
   , fs = require('fs')
-  , exec = require('child_process').exec;
+  , exec = require('child_process').exec
+  , colors = require('colors');
 
 var Nginx = function Nginx(settings, callback) {
   var self = this;
@@ -14,7 +15,8 @@ var Nginx = function Nginx(settings, callback) {
   fs.writeFile('/etc/nginx/sites-available/' + self.settings.name + '.conf',
     output, function (err) {
       if (err) throw err;
-      console.log('Configured Nginx site for ' + self.settings.name);
+      var message = 'Configured Nginx site for ' + self.settings.name;
+      console.log(message.green);
       self.enable();
     });
 
@@ -22,7 +24,8 @@ var Nginx = function Nginx(settings, callback) {
     fs.exists('/etc/nginx/sites-enabled/' + self.settings.name + '.conf',
       function (exists) {
         if (exists) {
-          console.log('Nginx site for ' + self.settings.name + ' already enabled');
+          var message = 'Nginx site for ' + self.settings.name + ' already enabled';
+          console.log(message.blue);
           return self.callback();
         }
 
@@ -30,16 +33,21 @@ var Nginx = function Nginx(settings, callback) {
                    '/etc/nginx/sites-enabled/' + self.settings.name + '.conf',
           function(err) {
             if (err) throw err;
-            console.log('Enabled Nginx site for ' + self.settings.name);
+            var message = 'Enabled Nginx site for ' + self.settings.name;
+            console.log(message.green);
             self.callback();
           });
       });
   }
 
   self.reload = function reload() {
-    var child = exec('service nginx reload', function (err, stdout, stderr) {
+    var child = exec('sudo service nginx reload', function (err, stdout, stderr) {
       if (err) throw err;
-      console.log(stdout, stderr);
+      if (stdout.indexOf('fail') > -1) {
+        console.log(stdout.red);
+      } else {
+        console.log(stdout.green);
+      }
     });
   }
 }

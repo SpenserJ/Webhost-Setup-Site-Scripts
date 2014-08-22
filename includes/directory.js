@@ -1,4 +1,5 @@
-var fs = require('fs');
+var fs = require('fs')
+  , colors = require('colors');
 
 var directory = function WebDir(settings, callback) {
   var self = this;
@@ -10,7 +11,8 @@ var directory = function WebDir(settings, callback) {
   fs.exists('/var/www/shared/' + self.settings.name,
     function (exists) {
       if (exists) {
-        console.log('Folder for ' + self.settings.name + ' already exists');
+        var message = 'Folder for ' + self.settings.name + ' already exists';
+        console.log(message.blue);
         self.mkdirLogs();
         self.mkdirHTML();
         return;
@@ -19,7 +21,8 @@ var directory = function WebDir(settings, callback) {
       fs.mkdir('/var/www/shared/' + self.settings.name, '0775',
         function (err) {
           if (err) throw err;
-          console.log('Created folder for ' + self.settings.name);
+          var message = 'Created folder for ' + self.settings.name;
+          console.log(message.green);
           self.mkdirLogs();
           self.mkdirHTML();
         });
@@ -29,14 +32,16 @@ var directory = function WebDir(settings, callback) {
     fs.exists('/var/www/shared/' + self.settings.name + '/logs',
       function (exists) {
         if (exists) {
-          console.log('Folder logs for ' + self.settings.name + ' already exists');
+          var message = 'Folder logs for ' + self.settings.name + ' already exists';
+          console.log(message.blue);
           return self.finished();
         }
 
         fs.mkdir('/var/www/shared/' + self.settings.name + '/logs', '0775',
           function (err) {
             if (err) throw err;
-            console.log('Creating logs folder for ' + self.settings.name);
+            var message = 'Creating logs folder for ' + self.settings.name;
+            console.log(message.green);
             self.finished();
           });
       });
@@ -46,14 +51,16 @@ var directory = function WebDir(settings, callback) {
     fs.exists('/var/www/shared/' + self.settings.name + '/public_html',
       function (exists) {
         if (exists) {
-          console.log('Folder public_html for ' + self.settings.name + ' already exists');
+          var message = 'Folder public_html for ' + self.settings.name + ' already exists';
+          console.log(message.blue);
           return self.finished();
         }
 
         fs.mkdir('/var/www/shared/' + self.settings.name + '/public_html', '0775',
           function (err) {
             if (err) throw err;
-            console.log('Creating public_html folder for ' + self.settings.name);
+            var message = 'Creating public_html folder for ' + self.settings.name;
+            console.log(message.green);
             self.finished();
           });
       });
