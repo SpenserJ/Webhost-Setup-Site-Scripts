@@ -3,7 +3,8 @@
 var inquirer = require('inquirer')
   , WebDir = require('./includes/directory')
   , Nginx = require('./includes/nginx')
-  , Git = require('./includes/git');
+  , Git = require('./includes/git')
+  , Database = require('./includes/database');
 
 var questions = [
   {
@@ -44,7 +45,6 @@ var questions = [
 ];
 
 inquirer.prompt(questions, function (settings) {
-  console.log('You said', settings);
   var readyForReload = 0
     , nginx, directory;
 
@@ -58,4 +58,5 @@ inquirer.prompt(questions, function (settings) {
 
   nginx = new Nginx(settings, canReload);
   directory = new WebDir(settings, canReload);
+  database = new Database(settings, function () { });
 });
