@@ -26,7 +26,6 @@ var questions = [
     name: 'repository',
     message: 'Git Repository URL?',
     validate: function (input) {
-      return true;
       if (input.substr(0, 4) !== 'git@') {
         return 'Please use a SSH repository URL';
       }
