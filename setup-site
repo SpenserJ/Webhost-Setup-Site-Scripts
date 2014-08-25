@@ -57,5 +57,7 @@ inquirer.prompt(questions, function (settings) {
 
   nginx = new Nginx(settings, canReload);
   directory = new WebDir(settings, canReload);
-  database = new Database(settings, function () { });
+  if (settings.type !== 'static') {
+    database = new Database(settings, function () { });
+  }
 });
