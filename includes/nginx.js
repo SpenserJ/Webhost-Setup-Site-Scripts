@@ -9,7 +9,7 @@ var Nginx = function Nginx(settings, callback) {
   self.settings = settings;
   self.callback = callback;
 
-  var template = swig.compileFile('templates/site.conf.swig')
+  var template = swig.compileFile(__dirname + '/../templates/site.conf.swig')
     , output = template(self.settings);
 
   fs.writeFile('/etc/nginx/sites-available/' + self.settings.name + '.conf',
