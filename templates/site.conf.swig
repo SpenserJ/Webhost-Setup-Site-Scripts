@@ -11,6 +11,8 @@ server {
   include conf.d/includes/handle_standard_files.conf;
   include conf.d/includes/{{ type }}.conf;
 
+  client_max_body_size 1024m;
+
   location @php {
     include       /etc/nginx/fastcgi_params;
     fastcgi_pass  unix:/var/run/php5-fpm_www.sock;
