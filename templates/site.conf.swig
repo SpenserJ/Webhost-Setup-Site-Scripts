@@ -1,5 +1,5 @@
 server {
-  server_name {{ name }}.staging.simplesimple.ca;
+  server_name {{ name }}.{{ hostname }};
   listen 80;
 
   root          /var/www/shared/{{ name }}/public_html;

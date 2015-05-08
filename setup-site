@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 var inquirer = require('inquirer')
+  , os = require('os')
   , WebDir = require('./includes/directory')
   , Nginx = require('./includes/nginx')
   , Git = require('./includes/git')
@@ -54,6 +55,9 @@ inquirer.prompt(questions, function (settings) {
       var git = Git(settings, function () {});
     }
   }
+
+  // Set up any variables we haven't asked the user for.
+  settings.hostname = os.hostname();
 
   nginx = new Nginx(settings, canReload);
   directory = new WebDir(settings, canReload);
