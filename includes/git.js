@@ -3,25 +3,27 @@ var gift = require('gift')
   , colors = require('colors');
 
 var Git = function Git(settings, callback) {
-  var self = this;
+  var self = this
+    , child, path;
 
   self.settings = settings;
   self.callback = callback;
+  
+  path = '/var/www/shared/' + self.settings.name + '/public_html';
 
-  fs.exists('/var/www/shared/' + self.settings.name + '/public_html/.git', 
+  fs.exists(path + '/.git', 
     function (exists) {
       if (exists === true) {
         console.log('The repository has already been initalized. Please update it manually.'.blue);
         return self.callback();
       }
-
-      gift.clone(self.settings.repository,
-        '/var/www/shared/' + self.settings.name + '/public_html',
-        function (err, repo) {
-          if (err) throw err;
-          console.log('Repository has been cloned.'.green);
-          self.callback();
-        });
+      
+      child = exec('git clone --recursive ' + self.settings.repository + ' ' + path, function(err, stdout, stderr) {
+        if (err) { throw err; }
+        console.log('Repository has been cloned.'.green);
+        self.callback();
+      });
+      
     });
 }
 
