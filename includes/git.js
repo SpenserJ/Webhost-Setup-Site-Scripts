@@ -1,7 +1,6 @@
-var gift = require('gift')
-  , fs = require('fs')
-  , colors = require('colors')
-  , exec = require('child_process').exec;
+var fs = require('fs')
+  , exec = require('child_process').exec
+  , colors = require('colors');
 
 var Git = function Git(settings, callback) {
   var self = this
@@ -18,13 +17,11 @@ var Git = function Git(settings, callback) {
         console.log('The repository has already been initalized. Please update it manually.'.blue);
         return self.callback();
       }
-      
       child = exec('git clone --recursive ' + self.settings.repository + ' ' + path, function(err, stdout, stderr) {
         if (err) { throw err; }
         console.log('Repository has been cloned.'.green);
         self.callback();
       });
-      
     });
 }
 
