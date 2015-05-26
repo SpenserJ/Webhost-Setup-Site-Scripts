@@ -1,6 +1,7 @@
 var gift = require('gift')
   , fs = require('fs')
-  , colors = require('colors');
+  , colors = require('colors')
+  , exec = require('child_process').exec;
 
 var Git = function Git(settings, callback) {
   var self = this
